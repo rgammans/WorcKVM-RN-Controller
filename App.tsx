@@ -22,6 +22,18 @@ const sources = [
     {
         id: 3,
         title: 'Mac'
+    },
+    {
+        id: 21,
+        title: 'Gaming Pc'
+    },
+    {
+        id: 22,
+        title: 'Linux Pc'
+    },
+    {
+        id: 23,
+        title: 'Mac'
     }
 ]
 
@@ -52,13 +64,15 @@ export default function App() {
         style={styles.monitorImage}
    >
         <Text style={styles.currentSource}>Current PC</Text>
-     { true && <FlatList
-        data={sources}
-        renderItem={
-            ({item}) => <Item title={item.title} />
-        }
-        keyExtractor={item => item.id}
-     />
+     { true && 
+        <FlatList
+            data={sources}
+            renderItem={
+                ({item}) => <Item title={item.title} />
+            }
+            keyExtractor={item => item.id}
+            style={styles.menuList}
+        />
     }
 
     </ImageBackground>  
@@ -109,5 +123,8 @@ const styles = StyleSheet.create({
    marginVertical: 50,
    fontSize: 20,
    textAlign: "center"
-  }
+  },
+  menuList: {
+    height: 150
+  },
 });
