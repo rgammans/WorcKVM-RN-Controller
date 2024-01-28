@@ -1,4 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
+import { MenuTrigger, MenuProvider, Menu, MenuOptions, MenuOption } from '@radiet/react-native-popup-menu';
+
 import {
     StyleSheet,
     Text,
@@ -48,36 +50,47 @@ const Item = ({title}: ItemProps) => (
 );
 
 
-const hashid: boolean = true;
+const has_hid: boolean = false;
+
+
 
 export default function App() {
   return (
+   <MenuProvider>
     <View style={styles.container}>
-    <TouchableHighlight
+   <TouchableHighlight
+        underlayColor="#ccffff"
         onPress={
             () => { console.log("touched screend") }
         }
-     >
-     <ImageBackground
+    >
+    <ImageBackground
         source={require('./assets/monitor-svgrepo-com.png')}
         resizeMode="contain"
         style={styles.monitorImage}
    >
-        <Text style={styles.currentSource}>Current PC</Text>
-     { true && 
+    <Text style={styles.currentSource}>Current PC</Text>
+    </ImageBackground>
+    </TouchableHighlight>
+
+    <Menu onSelect={
+                (x) => console.log(x)
+    }>
+
+    <MenuTrigger text="click" />
+        <MenuOptions>
         <FlatList
-            data={sources}
+           data={sources}
             renderItem={
-                ({item}) => <Item title={item.title} />
+                ({item}) => <MenuOption value={item.id} text={item.title} />
             }
             keyExtractor={item => item.id}
             style={styles.menuList}
         />
-    }
+        </MenuOptions>
+        </Menu>
 
-    </ImageBackground>  
-    </TouchableHighlight>
-    { hashid && <Image 
+    { has_hid && <Image 
               source={require('./assets/keyboard-shortcuts-svgrepo-com.png')} 
               style={styles.keyboardImage}
               resizeMode="contain"
@@ -87,10 +100,11 @@ export default function App() {
      <Button onPress={ 
        () => { console.log("grabbed hid!"); }
       } title="Grab Hid"  
-      disabled={hashid} 
+      disabled={has_hid} 
         />
       <StatusBar style="auto" />
     </View>
+   </MenuProvider>
   )
 }
 
@@ -120,6 +134,7 @@ const styles = StyleSheet.create({
     width: 64
   },
   currentSource: {
+   padding: 20,
    marginVertical: 50,
    fontSize: 20,
    textAlign: "center"
