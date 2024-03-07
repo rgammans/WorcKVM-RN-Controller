@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
-import { HidCtrl  } from './components/hid_ctrl';
-import { VideoCtrl  } from './components/video_ctrl';
+import { Monitor } from './components/monitor';
+import { useMonitors } from './services/monitors';
 
 import { MenuTrigger, MenuProvider, Menu, MenuOptions, MenuOption } from '@radiet/react-native-popup-menu';
 
@@ -15,44 +15,21 @@ import {
     FlatList,
 } from 'react-native';
 
-const sources = [ 
-    {
-        id: 1,
-        title: 'Gaming Pc'
-    },
-    {
-        id: 2,
-        title: 'Linux Pc'
-    },
-    {
-        id: 3,
-        title: 'Mac'
-    },
-    {
-        id: 21,
-        title: 'Gaming Pc'
-    },
-    {
-        id: 22,
-        title: 'Linux Pc'
-    },
-    {
-        id: 23,
-        title: 'Mac'
-    }
-]
-
-
 const has_hid: boolean = false;
 
 
 export default function App() {
+  const { data, error } = useMonitors();
+  console.log(data);
   return (
    <MenuProvider>
     <View style={styles.container}>
-      <VideoCtrl sources={sources} />
-      <HidCtrl has_hid={false} />
-      <StatusBar style="auto" />
+        <FlatList data={data}
+            renderItem={ ({item, index, separators}) => (
+                <Monitor uuid={item.uuid} />
+            )}
+        />
+        <StatusBar style="auto" />
     </View>
    </MenuProvider>
   )
