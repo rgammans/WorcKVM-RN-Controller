@@ -16,10 +16,10 @@ export function Monitor(props: MonitorProps) {
   console.log('srcs',sources);
   console.log('status', status);
   return (
-    <View>
-      <VideoCtrl sources={sources} />
-      <HidCtrl has_hid={status?.has_hid} />
-    </View>
+    <>
+      <VideoCtrl uuid={props.uuid} sources={sources} />
+      <HidCtrl uuid={props.uuid} has_hid={status?.has_hid} />
+    </>
     )
 }
 

@@ -6,10 +6,11 @@ import {
     ImageBackground,
     Button,
 } from 'react-native';
-
+import { GrabHid } from '../services/monitor_status';
 
 type HidCtrlProps = {
     has_hid: boolean;
+    uuid: string;
 };
 
 export function HidCtrl(props: HidCtrlProps) {
@@ -22,7 +23,7 @@ export function HidCtrl(props: HidCtrlProps) {
 
     }
     { !props.has_hid && <Button onPress={ 
-       () => { console.log("grabbed hid!"); }
+       () => { console.log("grabbed hid!"); GrabHid(props.uuid); }
       } title="Grab Hid"  
       disabled={props.has_hid} 
         />

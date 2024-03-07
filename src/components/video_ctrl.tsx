@@ -8,16 +8,19 @@ import {
 } from 'react-native';
 
 import { MenuTrigger, MenuProvider, Menu, MenuOptions, MenuOption } from '@radiet/react-native-popup-menu';
+import { useHidStatus, SelectSource } from '../services/monitor_status';
 
 type Source = {
     uuid: string;
     name: string;
 };
 type VideoCtrlProps = {
+    uuid: string;
     sources: Source[];
 };
 
 export function VideoCtrl(props: VideoCtrlProps) {
+    const { data: status,  error: hid_error} = useHidStatus(props.uuid);
     return (
     <>
    <TouchableHighlight
@@ -31,12 +34,15 @@ export function VideoCtrl(props: VideoCtrlProps) {
         resizeMode="contain"
         style={styles.monitorImage}
    >
-    <Text style={styles.currentSource}>Current PC</Text>
+    <Text style={styles.currentSource}>{status.source?.name}</Text>
     </ImageBackground>
     </TouchableHighlight>
 
     <Menu onSelect={
-                (x) => console.log(x)
+        (source_uuid) => {
+            console.log(source_uuid);
+            SelectSource(props.uuid, source_uuid); 
+        }
     }>
 
     <MenuTrigger text="click" />
@@ -50,7 +56,7 @@ export function VideoCtrl(props: VideoCtrlProps) {
             style={styles.menuList}
         />
         </MenuOptions>
-        </Menu>
+    </Menu>
     </>
     );
 }
