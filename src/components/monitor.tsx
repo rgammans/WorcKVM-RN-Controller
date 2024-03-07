@@ -2,45 +2,23 @@ import { HidCtrl  } from './hid_ctrl';
 import { VideoCtrl  } from './video_ctrl';
 
 import { StyleSheet, View } from 'react-native';
+import { useAvailableSources, useHidStatus } from '../services/monitor_status';
 
 type MonitorProps = {
     uuid: string;
 };
 
-const sources = [ 
-    {
-        id: 1,
-        title: 'Gaming Pc'
-    },
-    {
-        id: 2,
-        title: 'Linux Pc'
-    },
-    {
-        id: 3,
-        title: 'Mac'
-    },
-    {
-        id: 21,
-        title: 'Gaming Pc'
-    },
-    {
-        id: 22,
-        title: 'Linux Pc'
-    },
-    {
-        id: 23,
-        title: 'Mac'
-    }
-]
-
 
 export function Monitor(props: MonitorProps) {
   console.log(props.uuid);
+  const { data: sources,  error: src_error} = useAvailableSources(props.uuid);
+  const { data: status,  error: hid_error} = useHidStatus(props.uuid);
+  console.log('srcs',sources);
+  console.log('status', status);
   return (
     <View>
       <VideoCtrl sources={sources} />
-      <HidCtrl has_hid={false} />
+      <HidCtrl has_hid={status?.has_hid} />
     </View>
     )
 }

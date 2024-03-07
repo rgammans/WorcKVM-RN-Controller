@@ -10,8 +10,8 @@ import {
 import { MenuTrigger, MenuProvider, Menu, MenuOptions, MenuOption } from '@radiet/react-native-popup-menu';
 
 type Source = {
-    id: string;
-    title: string;
+    uuid: string;
+    name: string;
 };
 type VideoCtrlProps = {
     sources: Source[];
@@ -44,9 +44,9 @@ export function VideoCtrl(props: VideoCtrlProps) {
         <FlatList
            data={props.sources}
             renderItem={
-                ({item}) => <MenuOption value={item.id} text={item.title} />
+                ({item}) => <MenuOption value={item.uuid} text={item.name} />
             }
-            keyExtractor={item => item.id}
+            keyExtractor={item => item.uuid}
             style={styles.menuList}
         />
         </MenuOptions>
